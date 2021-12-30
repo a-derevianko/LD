@@ -2,18 +2,21 @@
 
 namespace App\Entities;
 
-use App\Types\Timestamp;
-use Doctrine\DBAL\Types\Type;
+use App\Traits\SoftDeletes as SoftDeletesTrait;
+use App\Traits\Timestamp as TimestampTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Date;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'authors')]
+#[Gedmo\SoftDeleteable(['fieldName' => 'deleted_at', 'timeAware' => false, 'hardDelete' => false])]
 class Author
 {
+    use TimestampTrait, SoftDeletesTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
@@ -22,13 +25,13 @@ class Author
     #[ORM\Column(type: Types::STRING)]
     protected string $name;
 
-    #[Gedmo\Timestampable(on: 'create')]
-    #[ORM\Column(name: 'created_at', type: Timestamp::TIMESTAMP, nullable: true)]
-    protected ?\DateTime $createdAt;
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Author::class)]
+    protected ArrayCollection|Post $posts;
 
-    #[Gedmo\Timestampable(on: 'update')]
-    #[ORM\Column(name: 'updated_at', type: Timestamp::TIMESTAMP, nullable: true)]
-    protected ?\DateTime $updatedAt;
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -40,28 +43,13 @@ class Author
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-//    public function getCreatedAt(): ?Carbon
-//    {
-//        return $this->createdAt;
-//    }
-//
-//    public function getUpdatedAt(): ?Carbon
-//    {
-//        return $this->updatedAt;
-//    }
-//
-//    public function setCreatedAt($createdAt)
-//    {
-//        $this->createdAt = $createdAt;
-//    }
-//
-//    public function setUpdatedAt($updatedAt)
-//    {
-//        $this->updatedAt = $updatedAt;
-//    }
+    public function getPosts(): Collection|Post
+    {
+        return $this->posts;
+    }
 }

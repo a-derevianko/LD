@@ -52,7 +52,9 @@ return [
                 'listeners' => [],
                 'subscribers' => []
             ],
-            'filters' => [],
+            'filters' => [
+                'soft-deleteable' => Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter::class
+            ],
             /*
             |--------------------------------------------------------------------------
             | Doctrine mapping types
@@ -94,7 +96,7 @@ return [
     'extensions' => [
         //LaravelDoctrine\ORM\Extensions\TablePrefix\TablePrefixExtension::class,
         LaravelDoctrine\Extensions\Timestamps\TimestampableExtension::class,
-        //LaravelDoctrine\Extensions\SoftDeletes\SoftDeleteableExtension::class,
+        LaravelDoctrine\Extensions\SoftDeletes\SoftDeleteableExtension::class,
         //LaravelDoctrine\Extensions\Sluggable\SluggableExtension::class,
         //LaravelDoctrine\Extensions\Sortable\SortableExtension::class,
         //LaravelDoctrine\Extensions\Tree\TreeExtension::class,
@@ -192,7 +194,7 @@ return [
     |
     */
     'gedmo' => [
-        'all_mappings' => false
+        'all_mappings' => true
     ],
     /*
      |--------------------------------------------------------------------------
