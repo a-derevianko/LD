@@ -21,8 +21,47 @@ class Post
     protected int $id;
 
     #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: "posts")]
+    #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'id')]
     protected $author;
 
     #[ORM\Column(type: Types::STRING)]
-    protected string $name;
+    protected string $title;
+
+    #[ORM\Column(type: Types::STRING)]
+    protected string $text;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    public function setAuthor($author): void
+    {
+        $this->author = $author;
+    }
+
+    public function setTitle($title): void
+    {
+        $this->title = $title;
+    }
+
+    public function setText($text): void
+    {
+        $this->text = $text;
+    }
 }
