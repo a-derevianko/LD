@@ -24,7 +24,7 @@ class Update extends FormRequest
     {
         return [
             'id' => ['required', 'exists:'.Post::class.',id'],
-            'author' => ['required', 'int', 'exists:'.Author::class.',id'],
+            'author_id' => ['required', 'int', 'exists:'.Author::class.',id'],
             'title' => ['required', 'string'],
             'text' => ['required', 'string'],
         ];
