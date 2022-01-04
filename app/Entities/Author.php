@@ -24,7 +24,7 @@ class Author
     #[ORM\Column(type: Types::STRING)]
     protected string $name;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class)]
     protected $posts;
 
     public function __construct()

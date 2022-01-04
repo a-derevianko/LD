@@ -30,7 +30,7 @@ class AuthorController extends Controller
 
     public function store(StoreRequest $request): Response
     {
-        $validated = $request->safe()->only(['id', 'name']);
+        $validated = $request->safe()->only(['name']);
         $author = new Author();
         $author->setName($validated['name']);
         $this->repository->store($author);

@@ -2,19 +2,24 @@
 
 namespace App\Transformers;
 
+use Doctrine\ORM\PersistentCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 
 class BaseResource extends JsonResource
 {
-    protected function whenNotEmpty($relationCollection): array|MissingValue
+    protected function whenNotEmpty($relation)
     {
-        $collection = $relationCollection->toArray();
+        $default = new MissingValue;
 
-        if (count($collection) < 1) {
-            return new MissingValue;
+        if ($relation instanceof PersistentCollection) {
+            $relation = $relation->toArray();
         }
 
-        return $collection;
+        if (empty($relation)) {
+            return value($default);
+        }
+
+        return value($relation);
     }
 }

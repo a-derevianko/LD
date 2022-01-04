@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Transformers\Author;
+namespace App\Transformers\Author\Post;
 
 use App\Transformers\BaseResource;
 
@@ -10,12 +10,11 @@ class Resource extends BaseResource
     {
         return [
             'id' => $this->getId(),
-            'name' => $this->getName(),
+            'title' => $this->getTitle(),
+            'text' => $this->getText(),
             'created_at' => $this->getCreatedAt(),
             'updated_at' => $this->getUpdatedAt(),
             'deleted_at' => $this->getDeletedAt(),
-
-            'posts' => Post\Collection::make($this->whenNotEmpty($this->getPosts()))
         ];
     }
 }
