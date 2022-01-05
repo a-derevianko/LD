@@ -12,7 +12,7 @@ use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'authors')]
-#[Gedmo\SoftDeleteable(['fieldName' => 'deleted_at', 'timeAware' => true, 'hardDelete' => false])]
+#[Gedmo\SoftDeleteable(['fieldName' => 'deleted_at', 'timeAware' => false, 'hardDelete' => true])]
 class Author
 {
     use TimestampTrait, SoftDeletesTrait;
