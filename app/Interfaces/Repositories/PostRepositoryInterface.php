@@ -8,7 +8,7 @@ interface PostRepositoryInterface
 {
     public function getAllPosts(): array;
 
-    public function getPostById(int|string $id): Post;
+    public function getPostById($id): Post;
 
     public function store(Post $post): Post;
 

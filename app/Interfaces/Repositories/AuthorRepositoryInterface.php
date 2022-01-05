@@ -8,7 +8,7 @@ interface AuthorRepositoryInterface
 {
     public function getAllAuthors(): array;
 
-    public function getAuthorById(int|string $id): Author;
+    public function getAuthorById($id): Author;
 
     public function store(Author $author): Author;
 

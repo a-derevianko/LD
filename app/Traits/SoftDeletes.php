@@ -6,19 +6,16 @@ use App\Types\Timestamp as TimestampType;
 use DateTime;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+//use Doctrine\ORM\Mapping as ORM;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 
 trait SoftDeletes
 {
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @var DateTime|null
+     * @ORM\Column(name="deleted_at", type="timestamp", nullable=true)
      */
-    #[ORM\Column(name: 'deleted_at', type: Types::DATETIME_MUTABLE, nullable: true)]
+//    #[ORM\Column(name: 'deleted_at', type: Types::DATETIME_MUTABLE, nullable: true)]
     protected $deletedAt;
 
     /**

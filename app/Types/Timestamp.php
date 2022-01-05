@@ -25,7 +25,7 @@ class Timestamp extends Type
         return Date::parse($value);
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): string|int|null|float
+    public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
             return null;

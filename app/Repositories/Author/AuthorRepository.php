@@ -37,7 +37,7 @@ class AuthorRepository extends EntityRepository implements AuthorRepositoryInter
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function getAuthorById(int|string $id): Author
+    public function getAuthorById($id): Author
     {
         $qb = $this->em->createQueryBuilder();
         $qb->select('Author', 'Post')

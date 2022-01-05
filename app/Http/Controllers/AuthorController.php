@@ -41,7 +41,7 @@ class AuthorController extends Controller
     public function show(ShowRequest $request): AuthorResource
     {
         $validated = $request->safe()->only(['id']);
-        $author = $this->repository->getAuthorById(id: $validated['id']);
+        $author = $this->repository->getAuthorById($validated['id']);
 
         return AuthorResource::make($author);
     }
@@ -49,7 +49,7 @@ class AuthorController extends Controller
     public function update(UpdateRequest $request): AuthorResource
     {
         $validated = $request->safe()->only(['id', 'name']);
-        $author = $this->repository->getAuthorById(id: $validated['id']);
+        $author = $this->repository->getAuthorById($validated['id']);
         $author->setName($validated['name']);
         $this->repository->update($author);
 
@@ -59,7 +59,7 @@ class AuthorController extends Controller
     public function destroy(DestroyRequest $request): Response
     {
         $validated = $request->safe()->only(['id']);
-        $author = $this->repository->getAuthorById(id: $validated['id']);
+        $author = $this->repository->getAuthorById($validated['id']);
         $this->repository->destroy($author);
 
         return response('Deleted successfully', 200);

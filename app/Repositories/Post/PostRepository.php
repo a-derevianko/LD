@@ -37,7 +37,7 @@ class PostRepository extends EntityRepository implements PostRepositoryInterface
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function getPostById(int|string $id): Post
+    public function getPostById($id): Post
     {
         $qb = $this->em->createQueryBuilder();
         $qb->select('Post', 'Author')
