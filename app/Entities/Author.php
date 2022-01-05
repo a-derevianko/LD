@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'authors')]
@@ -27,12 +28,13 @@ class Author
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class)]
     protected $posts;
 
+    #[Pure]
     public function __construct()
     {
         $this->posts = new ArrayCollection();
     }
 
-    public function addPost(Post $post)
+    public function addPost(Post $post): void
     {
         if (!$this->posts->contains($post)) {
             $post->setAuthor($this);
