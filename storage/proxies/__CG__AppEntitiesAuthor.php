@@ -179,12 +179,12 @@ class Author extends \App\Entities\Author implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function addPost(\App\Entities\Post $post)
+    public function addPost(\App\Entities\Post $post): void
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addPost', [$post]);
 
-        return parent::addPost($post);
+        parent::addPost($post);
     }
 
     /**

@@ -53,34 +53,4 @@ trait SoftDeletes
     {
         return null !== $this->deletedAt;
     }
-//    #[ORM\Column(name: 'deleted_at', type: TimestampType::TIMESTAMP, nullable: true)]
-//    protected $deletedAt;
-//
-//    public function getDeletedAt(): ?Carbon
-//    {
-//        if (is_null($this->deletedAt)) {
-//            return null;
-//        }
-//
-//        if ($this->deletedAt instanceof Carbon) {
-//            return $this->deletedAt;
-//        }
-//
-//        return Date::parse(time: $this->deletedAt);
-//    }
-//
-//    public function setDeletedAt($deletedAt = null)
-//    {
-//        $this->deletedAt = Date::parse(time: $deletedAt);
-//    }
-//
-//    public function restore()
-//    {
-//        $this->deletedAt = null;
-//    }
-//
-//    public function isDeleted(): bool
-//    {
-//        return $this->deletedAt && Date::now() >= $this->deletedAt;
-//    }
 }
