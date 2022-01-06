@@ -4,73 +4,44 @@ namespace App\Repositories\Author;
 
 use App\Entities\Author;
 use App\Interfaces\Repositories\AuthorRepositoryInterface;
+use App\Repositories\AbstractRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-//use Doctrine\Persistence\ObjectRepository;
 
-class AuthorRepository extends EntityRepository implements AuthorRepositoryInterface
+class AuthorRepository extends AbstractRepository implements AuthorRepositoryInterface
 {
-    private EntityManagerInterface $em;
-//    private ObjectRepository|EntityRepository $repository;
-
     public function __construct(EntityManagerInterface $em)
     {
-        $this->em = $em;
-        parent::__construct($this->em, $this->em->getClassMetadata(Author::class));
-//        $this->repository = $this->em->getRepository(Author::class);
+        parent::__construct($em, $this->getEntity());
     }
 
-    public function getAllAuthors(): array
+    final public function getEntity(): string
     {
-        $qb = $this->em->createQueryBuilder();
-        $qb->select('Author', 'Post')
-            ->from(Author::class, 'Author')
-            ->leftJoin('Author.posts', 'Post');
-        $query = $qb->getQuery();
-
-        return $query->getResult();
+        return Author::class;
     }
 
-    /**
-     * @throws NonUniqueResultException
-     * @throws NoResultException
-     */
-    public function getAuthorById($id): Author
+    final public function getAll(): array
     {
-        $qb = $this->em->createQueryBuilder();
-        $qb->select('Author', 'Post')
-            ->from(Author::class, 'Author')
+        return $this->getQB()
+            ->addSelect('Post')
             ->leftJoin('Author.posts', 'Post')
-            ->where('Author.id = :id')
-            ->setParameter('id', $id);
-        $query = $qb->getQuery();
-
-        return $query->getSingleResult();
+            ->getQuery()
+            ->getResult();
     }
 
-    public function store(Author $author): Author
+    final public function getById(int|string $id): Author
     {
-        $this->em->persist($author);
-        $this->em->flush();
-
-        return $author;
-    }
-
-    public function update(Author $author): Author
-    {
-        $this->em->persist($author);
-        $this->em->flush();
-
-        return $author;
-    }
-
-    public function destroy(Author $author): Author
-    {
-        $this->em->remove($author);
-        $this->em->flush();
-
-        return $author;
+        try {
+            return $this->getQB()
+                ->addSelect('Post')
+                ->leftJoin('Author.posts', 'Post')
+                ->where('Author.id = :id')
+                ->setParameter('id', $id)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+            throw new($e->getMessage());
+        }
     }
 }

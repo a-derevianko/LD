@@ -2,52 +2,52 @@
 
 namespace App\Entities;
 
-use App\Traits\SoftDeletes as SoftDeletesTrait;
-use App\Traits\Timestamp as TimestampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="posts")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
-//#[ORM\Entity]
-//#[ORM\Table(name: 'posts')]
-//#[Gedmo\SoftDeleteable(['fieldName' => 'deleted_at', 'timeAware' => false, 'hardDelete' => false])]
+#[ORM\Entity]
+#[ORM\Table(name: 'posts')]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false, hardDelete: true)]
 class Post
 {
-    use TimestampTrait, SoftDeletesTrait;
+    use TimestampableEntity, SoftDeleteableEntity;
 
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-//    #[ORM\Id]
-//    #[ORM\GeneratedValue]
-//    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)]
     protected int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="Author", inversedBy="posts")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      */
-//    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: "posts")]
-//    #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: "posts")]
+    #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'id')]
     protected $author;
 
     /**
      * @ORM\Column(type="string")
      */
-//    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING)]
     protected string $title;
 
     /**
      * @ORM\Column(type="string")
      */
-//    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING)]
     protected string $text;
 
     public function getId(): int

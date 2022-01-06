@@ -23,7 +23,7 @@ class AuthorController extends Controller
 
     public function index(): AuthorCollection
     {
-        $authors = $this->repository->getAllAuthors();
+        $authors = $this->repository->getAll();
 
         return AuthorCollection::make($authors);
     }
@@ -33,7 +33,7 @@ class AuthorController extends Controller
         $validated = $request->safe()->only(['name']);
         $author = new Author();
         $author->setName($validated['name']);
-        $this->repository->store($author);
+        $this->repository->save($author);
 
         return response('Created successfully', 201);
     }
@@ -41,7 +41,7 @@ class AuthorController extends Controller
     public function show(ShowRequest $request): AuthorResource
     {
         $validated = $request->safe()->only(['id']);
-        $author = $this->repository->getAuthorById($validated['id']);
+        $author = $this->repository->getById($validated['id']);
 
         return AuthorResource::make($author);
     }
@@ -49,9 +49,9 @@ class AuthorController extends Controller
     public function update(UpdateRequest $request): AuthorResource
     {
         $validated = $request->safe()->only(['id', 'name']);
-        $author = $this->repository->getAuthorById($validated['id']);
+        $author = $this->repository->getById($validated['id']);
         $author->setName($validated['name']);
-        $this->repository->update($author);
+        $this->repository->save($author);
 
         return AuthorResource::make($author);
     }
@@ -59,7 +59,7 @@ class AuthorController extends Controller
     public function destroy(DestroyRequest $request): Response
     {
         $validated = $request->safe()->only(['id']);
-        $author = $this->repository->getAuthorById($validated['id']);
+        $author = $this->repository->getById($validated['id']);
         $this->repository->destroy($author);
 
         return response('Deleted successfully', 200);

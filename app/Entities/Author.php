@@ -2,49 +2,47 @@
 
 namespace App\Entities;
 
-use App\Traits\Timestamp as TimestampTrait;
-use App\Traits\SoftDeletes as SoftDeletesTrait;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="authors")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
-//#[ORM\Entity]
-//#[ORM\Table(name: 'authors')]
-//#[Gedmo\SoftDeleteable(['fieldName' => 'deleted_at', 'timeAware' => false, 'hardDelete' => true])]
+#[ORM\Entity]
+#[ORM\Table(name: 'authors')]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false, hardDelete: true)]
 class Author
 {
-    use TimestampTrait, SoftDeletesTrait;
+    use TimestampableEntity, SoftDeleteableEntity;
 
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-//    #[ORM\Id]
-//    #[ORM\GeneratedValue]
-//    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)]
     protected int $id;
 
     /**
      * @ORM\Column(type="string")
      */
-//    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING)]
     protected string $name;
 
     /**
      * @ORM\OneToMany(mappedBy="author", targetEntity="Post")
      */
-//    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class)]
     protected $posts;
 
-//    #[Pure]
     public function __construct()
     {
         $this->posts = new ArrayCollection();

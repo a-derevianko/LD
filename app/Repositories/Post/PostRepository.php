@@ -4,73 +4,44 @@ namespace App\Repositories\Post;
 
 use App\Entities\Post;
 use App\Interfaces\Repositories\PostRepositoryInterface;
+use App\Repositories\AbstractRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-//use Doctrine\Persistence\ObjectRepository;
 
-class PostRepository extends EntityRepository implements PostRepositoryInterface
+class PostRepository extends AbstractRepository implements PostRepositoryInterface
 {
-    private EntityManagerInterface $em;
-//    private ObjectRepository|EntityRepository $repository;
-
     public function __construct(EntityManagerInterface $em)
     {
-        $this->em = $em;
-        parent::__construct($this->em, $this->em->getClassMetadata(Post::class));
-//        $this->repository = $this->em->getRepository(Post::class);
+        parent::__construct($em, $this->getEntity());
     }
 
-    public function getAllPosts(): array
+    final public function getEntity(): string
     {
-        $qb = $this->em->createQueryBuilder();
-        $qb->select('Post', 'Author')
-            ->from(Post::class, 'Post')
-            ->leftJoin('Post.author', 'Author');
-        $query = $qb->getQuery();
-
-        return $query->getResult();
+        return Post::class;
     }
 
-    /**
-     * @throws NonUniqueResultException
-     * @throws NoResultException
-     */
-    public function getPostById($id): Post
+    public function getAll(): array
     {
-        $qb = $this->em->createQueryBuilder();
-        $qb->select('Post', 'Author')
-            ->from(Post::class, 'Post')
+        return $this->getQB()
+            ->addSelect('Author')
+            ->leftJoin('Post.author', 'Author')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getById(int|string $id): Post
+    {
+        try {
+        return $this->getQB()
+            ->addSelect('Author')
             ->leftJoin('Post.author', 'Author')
             ->where('Post.id = :id')
-            ->setParameter('id', $id);
-        $query = $qb->getQuery();
-
-        return $query->getSingleResult();
-    }
-
-    public function store(Post $post): Post
-    {
-        $this->em->persist($post);
-        $this->em->flush();
-
-        return $post;
-    }
-
-    public function update(Post $post): Post
-    {
-        $this->em->persist($post);
-        $this->em->flush();
-
-        return $post;
-    }
-
-    public function destroy(Post $post): Post
-    {
-        $this->em->remove($post);
-        $this->em->flush();
-
-        return $post;
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+            throw new($e->getMessage());
+        }
     }
 }

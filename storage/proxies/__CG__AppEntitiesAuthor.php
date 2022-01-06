@@ -238,7 +238,18 @@ class Author extends \App\Entities\Author implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getCreatedAt(): ?\Illuminate\Support\Carbon
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreatedAt', [$createdAt]);
+
+        return parent::setCreatedAt($createdAt);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCreatedAt()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreatedAt', []);
@@ -249,34 +260,23 @@ class Author extends \App\Entities\Author implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getUpdatedAt(): ?\Illuminate\Support\Carbon
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUpdatedAt', [$updatedAt]);
+
+        return parent::setUpdatedAt($updatedAt);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUpdatedAt()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUpdatedAt', []);
 
         return parent::getUpdatedAt();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setCreatedAt($createdAt): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreatedAt', [$createdAt]);
-
-        parent::setCreatedAt($createdAt);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setUpdatedAt($updatedAt): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUpdatedAt', [$updatedAt]);
-
-        parent::setUpdatedAt($updatedAt);
     }
 
     /**

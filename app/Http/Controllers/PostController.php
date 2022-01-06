@@ -26,7 +26,7 @@ class PostController extends Controller
 
     public function index(): PostCollection
     {
-        $posts = $this->repository->getAllPosts();
+        $posts = $this->repository->getAll();
 
         return PostCollection::make($posts);
     }
@@ -34,12 +34,12 @@ class PostController extends Controller
     public function store(StoreRequest $request): Response
     {
         $validated = $request->safe()->only(['author_id', 'title', 'text']);
-        $author = $this->authorRepository->getAuthorById($validated['author_id']);
+        $author = $this->authorRepository->getById($validated['author_id']);
         $post = new Post();
         $post->setAuthor($author);
         $post->setTitle($validated['title']);
         $post->setText($validated['text']);
-        $this->repository->store($post);
+        $this->repository->save($post);
 
         return response('Created successfully', 201);
     }
@@ -47,7 +47,7 @@ class PostController extends Controller
     public function show(ShowRequest $request): PostResource
     {
         $validated = $request->safe()->only(['id']);
-        $post = $this->repository->getPostById($validated['id']);
+        $post = $this->repository->getById($validated['id']);
 
         return PostResource::make($post);
     }
@@ -55,12 +55,12 @@ class PostController extends Controller
     public function update(UpdateRequest $request): PostResource
     {
         $validated = $request->safe()->only(['id', 'author_id', 'title', 'text']);
-        $author = $this->authorRepository->getAuthorById($validated['author_id']);
-        $post = $this->repository->getPostById($validated['id']);
+        $author = $this->authorRepository->getById($validated['author_id']);
+        $post = $this->repository->getById($validated['id']);
         $post->setAuthor($author);
         $post->setTitle($validated['title']);
         $post->setText($validated['text']);
-        $this->repository->update($post);
+        $this->repository->save($post);
 
         return PostResource::make($post);
     }
@@ -68,7 +68,7 @@ class PostController extends Controller
     public function destroy(DestroyRequest $request): Response
     {
         $validated = $request->safe()->only(['id']);
-        $post = $this->repository->getPostById($validated['id']);
+        $post = $this->repository->getById($validated['id']);
         $this->repository->destroy($post);
 
         return response('Deleted successfully', 200);
