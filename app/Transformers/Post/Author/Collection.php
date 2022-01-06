@@ -2,17 +2,13 @@
 
 namespace App\Transformers\Post\Author;
 
-use App\Entities\Author;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class Collection extends ResourceCollection
 {
-    public $collects = Author::class;
-
-    public function toArray($request): array
+    public function toArray($request): AnonymousResourceCollection
     {
-        return [
-            'data' => Resource::collection($this->collection)
-        ];
+        return Resource::collection($this->collection);
     }
 }

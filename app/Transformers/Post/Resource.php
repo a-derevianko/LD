@@ -6,7 +6,7 @@ use App\Transformers\BaseResource;
 
 class Resource extends BaseResource
 {
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->getId(),

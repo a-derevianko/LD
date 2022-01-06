@@ -22,6 +22,10 @@ class BaseResource extends JsonResource
         }
 
         if ($relation instanceof PersistentCollection) {
+            if ($relation->isEmpty()) {
+                return value($default);
+            }
+
             $relation = $relation->getSnapshot();
         }
 
