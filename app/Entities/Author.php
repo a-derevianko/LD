@@ -43,9 +43,16 @@ class Author
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class)]
     protected $posts;
 
+    /**
+     * @ORM\OneToMany(mappedBy="author", targetEntity="Post")
+     */
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Article::class)]
+    protected $articles;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     public function addPost(Post $post): void
@@ -53,6 +60,14 @@ class Author
         if (!$this->posts->contains($post)) {
             $post->setAuthor($this);
             $this->posts->add($post);
+        }
+    }
+
+    public function addArticle(Article $article): void
+    {
+        if (!$this->posts->contains($article)) {
+            $article->setAuthor($this);
+            $this->articles->add($article);
         }
     }
 
@@ -69,6 +84,11 @@ class Author
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    public function getArticles()
+    {
+        return $this->articles;
     }
 
     public function setName($name): void
